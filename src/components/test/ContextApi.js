@@ -41,30 +41,46 @@ const Body = memo(() => {
   return <h2>{content}</h2>;
 });
 const Footer = memo(() => {
-  // const { content } = useContext(Context);
+  const { content } = useContext(Context);
   console.log("🚀 ~ Footer:");
 
   return <h2>Footer</h2>;
 });
+const Sidebar = () => {
+  // const { content } = useContext(Context);
+  console.log("🚀 ~ Sidebar:");
+
+  return <h2>Footer</h2>;
+};
 
 const Container = memo(({ title, content, onClose }) => {
+  const [name, setName] = useState("ryan");
+  // const [age, setAge] = useState("ryan");
+
   const value = useMemo(() => {
-    return { title, content, onClose };
-  }, [title, content, onClose]);
+    return { title, content, onClose, name };
+  }, [title, content, onClose, name]);
+
+  const handleName = () => {
+    setName((prev) => prev + 1);
+  };
 
   return (
-    <Context.Provider value={value}>
+    <Context.Provider value={{ value }}>
+      <p>{name}</p>
+      <button onClick={handleName}>네임 변경</button>
       {/* <Backdrop /> */}
       <Header />
       <Body />
       <Footer />
+      <Sidebar />
     </Context.Provider>
   );
 });
 
 export default function ContextApi() {
   const [title, setTitle] = useState("상품리스트");
-  const [content, setContent] = useState("콘텐츠");
+  const [content1, setContent1] = useState("콘텐츠");
 
   const onClose = useCallback(() => {
     console.log("🚀 ~ onClose ~ onClose:");
@@ -76,8 +92,8 @@ export default function ContextApi() {
       <Container title={title} onClose={onClose} content="Content" />
       <p>{title}</p>
       <button onClick={() => setTitle((prev) => prev + 1)}>제목 변경</button>
-      <p>{content}</p>
-      <button onClick={() => setContent((prev) => prev + 1)}>
+      <p>{content1}</p>
+      <button onClick={() => setContent1((prev) => prev + 1)}>
         컨텐츠 변경
       </button>
     </>
